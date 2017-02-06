@@ -4,7 +4,8 @@ import re
 ## SI 206 - W17 - HW3
 ## COMMENT WITH:
 ## Your section day/time:Sec 003, Thursdays, 6pm-7pm
-## Any names of people you worked with on this assignment: Danielle, Sadie, Samii
+## Any names of people you worked with on this assignment: Danielle, Sadie, Samii, PLEASE READ BELOW
+    #~~~~~~ I WAS UNABLE TO ATTEND OFFICE HOURS THIS WEEK, SO THE PEOPLE I WORKED WITH WENT TRHOUGH THE HOMEWORK WITH ME AND HELPED EXPLAIN THE CONCEPTS SINCE I WAS STILL UNLEAR DESPITE DOING THE READIN
 
 #####################
 
@@ -58,6 +59,13 @@ file_paths_num = len(files)
 fullpaths = re.findall('~\/|\/Users', contents)
 full_paths_num = len(fullpaths)
 
+
+
+foldersi206 = re.findall('Users/Jackie/Documents/SI206', contents)
+python_course_paths = len(foldersi206)
+
+microsoftfile = re.findall('\d\.(docx|xlsx)', contents)
+microsoft_files_num = len(microsoftfile)
 
 
 
