@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 ## SI 206 - W17 - HW4
 ## COMMENT WITH:
 ## Your section day/time:Sec 003, Thursdays, 6pm-7pm
-## Any names of people you worked with on this assignment: Samii
+## Any names of people you worked with on this assignment: Samii, Rachel (during section), help from Molly in section
 
 #####################
 
@@ -107,18 +107,27 @@ umsi_titles = {}
 ## Find the container that holds the name that belongs to that person (HINT: look for something unique, like a property element...)
 ## Find the container that holds the title that belongs to that person (HINT: a class name)
 ## Grab the text of each of those elements and put them in the dictionary umsi_titles properly
+names_for_dict = []
+titles_for_dict = []
+
 
 names = soup.find_all("div", {"property": "dc:title"})
 titles = soup.find_all("div", {"class": "field-name-field-person-titles"})
 
-names_for_dict = []
+
 for x in names:
 	names_for_dict.append(x.text)
+print(names_for_dict)
 
-titles_for_dict = []
+
 for x in titles:
 	titles_for_dict.append(x.text)
 print(titles_for_dict)
+
+
+for x in range(len(names_for_dict)):
+	umsi_titles[names_for_dict[x]] = titles_for_dict[x]
+print(umsi_titles)
 
 
 
