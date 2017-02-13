@@ -55,6 +55,15 @@ f.close()
 ## HINT: Remember that you'll need to open the file you created in Part 1, read the contets into one big string, and make a BeautifulSoup object out of that string!
 ## NOTE that the provided link does not include saving the online data in a file as part of the process. But it still provides very useful hints/tricks about how to look for and identify the headlines on the NY Times page.
 
+soup = BeautifulSoup(cache_filename, 'html.parser')
+#print(soup.prettify())
+head_tops = soup.find_all]("h2", class_ = "story-heading")
+print(head_tops.text)
+#for x in head_tops:
+#	print(x)
+
+
+
 
 
 
