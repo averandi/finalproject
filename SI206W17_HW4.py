@@ -68,6 +68,7 @@ for story_heading in head_tops:
     #else: 
      #   print(story_heading.contents[0].strip())
 nytimes_headlines = conv_to_list[:10]
+print(nytimes_headlines)
 #for x in head_tops:
 #	print(x)
 
@@ -107,7 +108,17 @@ umsi_titles = {}
 ## Find the container that holds the title that belongs to that person (HINT: a class name)
 ## Grab the text of each of those elements and put them in the dictionary umsi_titles properly
 
+names = soup.find_all("div", {"property": "dc:title"})
+titles = soup.find_all("div", {"class": "field-name-field-person-titles"})
 
+names_for_dict = []
+for x in names:
+	names_for_dict.append(x.text)
+
+titles_for_dict = []
+for x in titles:
+	titles_for_dict.append(x.text)
+print(titles_for_dict)
 
 
 
