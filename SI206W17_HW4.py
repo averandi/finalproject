@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 
 ## SI 206 - W17 - HW4
 ## COMMENT WITH:
-## Your section day/time:
-## Any names of people you worked with on this assignment:
+## Your section day/time:Sec 003, Thursdays, 6pm-7pm
+## Any names of people you worked with on this assignment: Samii
 
 #####################
 
@@ -55,10 +55,19 @@ f.close()
 ## HINT: Remember that you'll need to open the file you created in Part 1, read the contets into one big string, and make a BeautifulSoup object out of that string!
 ## NOTE that the provided link does not include saving the online data in a file as part of the process. But it still provides very useful hints/tricks about how to look for and identify the headlines on the NY Times page.
 
+conv_to_list = []
 soup = BeautifulSoup(cache_filename, 'html.parser')
 #print(soup.prettify())
-head_tops = soup.find_all]("h2", class_ = "story-heading")
-print(head_tops.text)
+head_tops = soup.find_all("h2", class_ = "story-heading")
+#print(head_tops.text)
+
+
+for story_heading in head_tops: 
+    if story_heading.a: 
+    	conv_to_list.append(story_heading.a.text.replace("\n", "").strip())
+    #else: 
+     #   print(story_heading.contents[0].strip())
+nytimes_headlines = conv_to_list[:10]
 #for x in head_tops:
 #	print(x)
 
