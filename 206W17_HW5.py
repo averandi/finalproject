@@ -2,6 +2,7 @@ import unittest
 import tweepy
 import requests
 import json
+import twitter_info
 
 ## SI 206 - W17 - HW5
 ## COMMENT WITH:
@@ -31,25 +32,61 @@ import json
 ## We've provided some starter code below, like what is in the class tweepy examples.
 
 ## **** For 50 points of extra credit, create another file called twitter_info.py that contains your consumer_key, consumer_secret, access_token, and access_token_secret, import that file here, and use the process we discuss in class to make that information secure! Do NOT add and commit that file to a public GitHub repository.
+consumer_key = twitter_info.consumer_key
+consumer_secret = twitter_info.consumer_secret
+access_token = twitter_info.access_token
+access_token_secret = twitter_info.access_token_secret
 
 ## **** If you choose not to do that, we strongly advise using authentication information for an 'extra' Twitter account you make just for this class, and not your personal account, because it's not ideal to share your authentication information for a real account that you use frequently.
 
 ## Get your secret values to authenticate to Twitter. You may replace each of these with variables rather than filling in the empty strings if you choose to do the secure way for 50 EC points
-consumer_key = "" 
-consumer_secret = ""
-access_token = ""
-access_token_secret = ""
+#consumer_key = "" 
+#consumer_secret = ""
+#access_token = ""
+#access_token_secret = ""
+
+
 ## Set up your authentication to Twitter
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()) # Set up library to grab stuff from twitter with your authentication, and return it in a JSON-formatted way
+api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()) 
+# Set up library to grab stuff from twitter with your authentication, and return it in a JSON-formatted way
 
 ## Write the rest of your code here!
 
 #### Recommended order of tasks: ####
 ## 1. Set up the caching pattern start -- the dictionary and the try/except statement shown in class.
+
+cache_fname = "cache_file.json"
+try:
+	cache_file_obj = open(cache_fname, 'r')
+	cache_contents = cache_file_obj.read()
+	cache_diction = json.loads(cache_contents)
+except:
+	cache_diction = {}
+
 ## 2. Write a function to get twitter data that works with the caching pattern, so it either gets new data or caches data, depending upon what the input to search for is. You can model this off the class exercise from Tuesday.
+def get_from_twitter(search_tweets):
+	full_url = api.search(q = search_tweets, rpp = 3)
+	#print(type(full_url))
+	return full_url
+	#if full_url in cache_diction:
+	#	diction = json.loads(cache_diction[full_url])
+	#else:
+		#twitter_response = requests.get(twitter_baseurl, params = twitter_d)
+		#cache_diction[full_url] = twitter_response.text
+		#f = open(cache_fname, "w")
+		#f.write(json.dumps(cache_diction))
+		#f.close()
+		#diction = json.loads(twitter_response.text)
+
+	#return diction
+
+
 ## 3. Invoke your function, save the return value in a variable, and explore the data you got back!
+search_tweets = input("Search tweet here: ")
+twitter_search = get_from_twitter(search_tweets)
+print(twitter_search)
 ## 4. With what you learn from the data -- e.g. how exactly to find the text of each tweet in the big nested structure -- write code to print out content from 3 tweets, as shown above.
 
 
