@@ -67,9 +67,52 @@ except:
 
 ## 2. Write a function to get twitter data that works with the caching pattern, so it either gets new data or caches data, depending upon what the input to search for is. You can model this off the class exercise from Tuesday.
 def get_from_twitter(search_tweets):
-	full_url = api.search(q = search_tweets, rpp = 3)
+	#full_url = api.search(q = search_tweets)
+	unique_identifier = "twitter_{}".format(search_tweets)
+	
+	if unique_identifier in cache_diction: 
+		print('using cached data for', search_tweets)
+		twitter_results = cache_diction[unique_identifier] 
+	else:
+		print('getting data from internet for', search_tweets)
+		twitter_results = api.search(search_tweets) 
+		cache_diction[unique_identifier] = twitter_results
+		f = open(cache_fname,'w') 
+		f.write(json.dumps(cache_diction))
+		f.close()
+
+	tweet_texts = [] 
+	tweet_createdat = []
+	for tweet in twitter_results["statuses"][:3]:
+		print("")
+		tweet_texts.append("TEXT: " + tweet["text"])
+		tweet_createdat.append("CREATED AT: " + tweet["created_at"])
+	
+	return (tweet_texts, tweet_createdat)
+
+	
+		
+
+	#print("")
+	#print("TEXT: ", twitter_results["statuses"][0]['text'])
+	#print("CREATED AT: ", twitter_results["statuses"][0]['created_at'])
+	#print("")
+	#print("TEXT: ", twitter_results["statuses"][1]['text'])
+	#print("CREATED AT:", twitter_results["statuses"][0]['created_at'])
+	#print("")
+	#print("TEXT: ", twitter_results["statuses"][2]['text'])
+	#print("CREATED AT:", twitter_results["statuses"][0]['created_at'])
+	#print("")
+	#tweet_texts = [] 
+	#for tweet in twitter_results:
+		#tweet_texts.append(tweet["text"])
+	#	print(tweet['text'])
+		#tweet_texts.append(tweet["created_at"])
+	#return tweet_texts[:3]
+
+
 	#print(type(full_url))
-	return full_url
+	#return full_url
 	#if full_url in cache_diction:
 	#	diction = json.loads(cache_diction[full_url])
 	#else:
@@ -86,7 +129,16 @@ def get_from_twitter(search_tweets):
 ## 3. Invoke your function, save the return value in a variable, and explore the data you got back!
 search_tweets = input("Search tweet here: ")
 twitter_search = get_from_twitter(search_tweets)
-print(twitter_search)
+twitter_texts = twitter_search[0]
+twitter_created = twitter_search[1]
+
+for t in range(3):
+	print(twitter_texts[t])
+	print(twitter_created[t])
+	print("")
+
+
+
 ## 4. With what you learn from the data -- e.g. how exactly to find the text of each tweet in the big nested structure -- write code to print out content from 3 tweets, as shown above.
 
 
