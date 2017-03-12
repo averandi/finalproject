@@ -36,7 +36,7 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 CACHE_FNAME = "206project2_caching.json"
 try:
 	cache_data = open(CACHE_FNAME, 'r')
-	cache_contents = cached_data.read()
+	cache_contents = cache_data.read()
 	CACHE_DICTION = json.loads(cache_contents)
 	cache_data.close()
 except:
