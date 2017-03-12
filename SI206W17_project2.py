@@ -92,9 +92,9 @@ def get_umsi_data():
 
 		CACHE_DICTION['umsi_directory_data'] = page_list
 
-		cached_data = open(CACHE_FNAME, 'w')
-		cached_data.write(json.dumps(CACHE_DICTION))
-		cached_data.close()
+		cache_data = open(CACHE_FNAME, 'w')
+		cache_data.write(json.dumps(CACHE_DICTION))
+		cache_data.close()
 	return CACHE_DICTION['umsi_directory_data']
 
 # x = get_umsi_data()
@@ -156,7 +156,6 @@ def get_five_tweets(search_tweets):
 
 	tweet_texts = [] 
 	for tweet in twitter_results["statuses"][:5]:
-		#print("")
 		tweet_texts.append(tweet["text"])
 	
 	return tweet_texts
