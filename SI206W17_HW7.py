@@ -84,6 +84,7 @@ def get_user_tweets(twenty_user_timeline_tweets):
 # Write code to create/build a connection to a database: tweets.db,
 conn = sqlite3.connect('tweets.db')
 cur = conn.cursor()
+
 # And then load all of those tweets you got from Twitter into a database table called Tweets, with the following columns in each row:
 
 ## tweet_id - containing the unique id that belongs to each tweet
@@ -91,7 +92,8 @@ cur = conn.cursor()
 ## time_posted - containing the date/time value that represents when the tweet was posted (note that this should be a TIMESTAMP column data type!)
 ## tweet_text - containing the text that goes with that tweet
 ## retweets - containing the number that represents how many times the tweet has been retweeted
-
+cur.execute('DROP TABLE IF EXISTS Tweets')
+cur.execute('CREATE TABLE Tweets (tweet_id TEXT, author TEXT, time_posted INTEGER, tweet_text TEXT, retweets INTEGER)')
 # Below we have provided interim outline suggestions for what to do, sequentially, in comments.
 
 # Make a connection to a new database tweets.db, and create a variable to hold the database cursor.
