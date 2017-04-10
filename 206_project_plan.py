@@ -33,21 +33,21 @@ except:
 
 #######
 class Movie():
-		def __init__(self, movie_name, director, actors, year, ):
-			self.title = movie_name
-			self.director_name = director
-			self.actor_names = actors
-			self.year_released = year
+	def __init__(self, moviename, director, actors, year):
+		self.title = moviename
+		self.director_name = director
+		self.actor_names = actors
+		self.year_released = year
 	
-		def __str__(self):
-			return "Title: {} \nDirector: {} \nStarring: {} ".format(self.title, self.director_name)
-		def nums_of(self):
-			print "Year Released: " + str(self.year_released)
+	def __str__(self):
+		return "Title: {} \nDirector: {} \nStarring: {} ".format(self.title, self.director_name)
+		#def nums_of(self):
+			#print "Year Released: " + str(self.year_released)
 
 
 
-mov_ins_1 = Movie("The Hunger Games")
 
+# Write your test cases here.
 class MyUnitTest(unittest.TestCase):
 	def test_1_movie_instance(self):
 		self.assertIsInstance(mov_ins_1, Movie) #good
@@ -69,9 +69,6 @@ class MyUnitTest(unittest.TestCase):
 
 
 
-# Write your test cases here.
-class MyUnitTest(unittest.TestCase):
-
 
 unittest.main(verbosity=2)
-## Remember to invoke all your tests...
+	## Remember to invoke all your tests...
