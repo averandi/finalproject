@@ -97,3 +97,95 @@ class Movie():
 # print(d)
 # print(d.__int_for_num_lang___())
 # print('')
+
+#~~~~~~~~~~~~TWITTER FUNCTION TO GET AND CACHE DATA BASED ON SERACH TERM
+def get_tweets(search_actor):
+	unique_identifier = "twitter_{}".format(search_actor)
+
+	if unique_identifier in CACHE_DICTION: 
+		#print('using cached data for', search_tweets)
+		twitter_results = CACHE_DICTION[unique_identifier] 
+	else:
+		#print('getting data from internet for', search_tweets)
+		twitter_results = api.search_users(search_actor) 
+		CACHE_DICTION[unique_identifier] = twitter_results
+		cached_data = open(CACHE_FNAME,'w') 
+		cached_data.write(json.dumps(CACHE_DICTION))
+		cached_data.close()
+
+	#response = CACHE_DICTION['search_actor']
+	for x in twitter_results:
+		return x
+	
+	#return twitter_results
+
+
+
+
+#~~~~~~~~~~~~TWITTER FUNCTION TO GET AND CACHE DATA ABOUT A TWITTER USER
+def get_user_tweets(user_timeline_tweets):
+	#full_url = api.user_timeline(q = search_tweets)
+	unique_identifier = "twitter_{}".format(user_timeline_tweets)
+	
+	if unique_identifier in CACHE_DICTION: 
+		twitter_results = CACHE_DICTION[unique_identifier] 
+
+	else:
+		twitter_results = api.user_timeline(user_timeline_tweets) 
+		CACHE_DICTION[unique_identifier] = twitter_results
+		f = open(CACHE_FNAME,'w') 
+		f.write(json.dumps(CACHE_DICTION))
+		f.close()
+
+	#return twitter_results
+	for x in twitter_results:
+		return x
+
+
+
+#~~~~~~~~~~~~CLASS FOR TWITTER SEARCH DATA
+	#~~~~~~~~~~~~TEXT OF TWEET, TWEET ID, USER POSTING IT, SEARCH TERM USED, NUM OF FAVORITES, NUM OF RETWEETS
+class Tweet():
+	def __init__(self, dict_for_tweets):
+		#x = get_tweets()
+		#self.search_term = dict_for_tweets
+		self.text = dict_for_tweets['status']['text']
+		self.tweet_id = dict_for_tweets['status']['id']
+		self.user = dict_for_tweets['screen_name']
+		self.faves = dict_for_tweets['status']['favorite_count']
+		self.retweets = dict_for_tweets['status']['retweet_count']
+		self.mentions = dict_for_tweets['status']['entities']['user_mentions']
+		#print(type(dict_for_tweets))
+	def __str__(self):
+		return '\n Text: {} \n Tweet ID: {} \n User: {} \n Favorites: {} \n Retweets: {} \n'.format(self.text, self.tweet_id, self.user, self.faves, self.retweets)
+	# def _tweet_text(self):
+	# 	return self.text
+	def _user_(self):
+		return self.user
+	def _mentions_(self):
+		if len(self.mentions) != 0:
+			return 'Mentioned Users {}'.format(self.mentions)
+		else:
+			return 'Mentioned Users: NONE'
+	def _user_mentions_(self):
+		if len(self.mentions) != 0:
+			return 'Mentioned Users {}'.format(self.mentions)
+
+#reg ex `` (\@)[0-9a-zA-Z_]+ ``
+
+
+# ava = get_tweets('randi_pandi')
+# # print(ava)
+# ad = []
+# bb = Tweet(ava)
+
+# print(bb._mentions_())
+# print(bb)
+
+
+# for x in bb:
+# 	xx = Tweet(x)
+# 	b = xx._tweet_text()
+# 	print(b)
+#~~~~~~~~~~~~CLASS FOR TWITTER USER
+	#~~~~~~~~~~~~USER ID, SCREENNAME, NUM OF FAVORITES THE USER HAS MADE, MAYBE NUMBER OF FOLLOWERS
