@@ -188,4 +188,78 @@ class Tweet():
 # 	b = xx._tweet_text()
 # 	print(b)
 #~~~~~~~~~~~~CLASS FOR TWITTER USER
-	#~~~~~~~~~~~~USER ID, SCREENNAME, NUM OF FAVORITES THE USER HAS MADE, MAYBE NUMBER OF FOLLOWERS
+	#~~~~~~~~~~~~USER ID, SCREENNAME, NUM OF FAVORITES THE USER HAS MADE, MAYBE NUMBER OF FOLLOWERSclass User():
+	def __init__(self, dict_for_user):
+		self.user_id = dict_for_user['user']['id_str']
+		self.screen_name = dict_for_user['user']['screen_name']
+		self.num_faves= dict_for_user['user']['favourites_count']
+		self.num_followers = dict_for_user['user']['followers_count']
+	def __str__(self):
+		return '\n User ID: {} \n Screen Name: {} \n Favorites Made: {} \n Number of Followers: {} \n'.format(self.user_id, self.screen_name, self.num_faves, self.num_followers)
+# avauser = get_user_tweets('randi_pandi')
+# #print(avauser)
+# ava = User(avauser)
+# print(ava)
+
+#~~~~~~~~~~~~GRABBING DATA
+#~~~~~~~~~~~~PICK 3 MOVIE TITLE SEARCH TERMS FOR OMDB, PUT THOSE STRINGS IN A LIST
+#~~~~~~~~~~~~MAKE A REQUEST TO OMDB FOR EACH OF THOSE 3 SEARCH TERMS USING MY FUNCTION, ACCUMUILATE DICTIONARIES
+#~~~~~~~~~~~~I GET FROM DOING THIS, EACH REPRESENTING ONE MOVIE, INTO A LIST
+
+movie_titles_to_search_for = ['Twilight', 'Get Out', 'The Great Gatsby']
+
+#~~~~~~~~~~~~ this puts the dictionaries of each movie into 1 list
+# list_of_dicts = []
+# for x in movie_titles_to_search_for:
+# 	m_dicts = get_from_omdb(x)
+# 	list_of_dicts.append(m_dicts)
+#^^^^^^^^^refer to for list comp^^^^^^^^^
+list_of_dicts = [get_from_omdb(x) for x in movie_titles_to_search_for]
+#print(type(list_of_dicts))
+#~~~~~~~~~~~~this is to organize through the dictionaries with the Movie class, and put them in 1 list, list_of_instcs
+#~~~~~~~~~~~~run through dict using Movie class
+print('')
+print('~~~~~~~~~~~~MOVIE INFORMATION~~~~~~~~~~~~')
+print('')
+list_of_instcs = []
+for x in list_of_dicts:
+	d = Movie(x)
+	p = d.__int_for_num_lang___()
+	list_of_instcs.append(d)
+	list_of_instcs.append(p)
+	print(d)
+	print(p)
+	print('')
+#list_of_instcs = [(print(Movie(x))) for x in list_of_dicts]
+#print(list_of_instcs)
+
+#~~~~~~~~~~~~list of names of directors to look up on Twitter
+dir_name_list = []
+for x in list_of_dicts:
+	# dir_name_list = []
+	d = Movie(x)
+	p = d._call_dir_name_()
+	dir_name_list.append(p)
+# print(dir_name_list)
+# print(type(dir_name_list))
+
+
+
+
+
+#~~~~~~~~~~~~get director of each movie to search them on Twitter
+print('')
+print('~~~~~~~~~~~~SEARCH RESULTS FOR DIRECTORS ON TWITTER~~~~~~~~~~~~')
+print('')
+
+dirs_for_twitter = [get_tweets(x) for x in dir_name_list]
+def organizedtwitterinfo(listofusers):
+#print(dirs_for_twitter)
+	for x in listofusers:
+		d = Tweet(x)
+		p = d._mentions_()
+		print (d,p)
+	#print(p)
+x = organizedtwitterinfo(dirs_for_twitter)
+
+print('')
