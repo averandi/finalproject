@@ -263,3 +263,44 @@ def organizedtwitterinfo(listofusers):
 x = organizedtwitterinfo(dirs_for_twitter)
 
 print('')
+#~~~~~~~~~~~~Twitter profile info for each Director
+
+
+
+print('~~~~~~~~~~~~USER INFO FOR DIRECTOR (AND MENTIONED USERS, IF ANY)~~~~~~~~~~~~')
+print('')
+#print(type(tt))
+
+# listy = []
+# for x in tt:
+# 	listy.append(x)
+# 	print(listy)
+# print(type(tt))
+#~~~~~~~~~~~~THIS SEARCHES THE DIRECTOR AND GETS THEIR PROFILE
+#~~~~~~~~~~~~this function takes the director's name, gets their twitter screenname, and any will provide
+#~~~~~~~~~~~~the screenname of anyone mentioned in their tweet provided from the Tweet class
+#~~~~~~~~~~~~this function passes the handles to the User class to provide information
+
+def gettinguserinfo(name):
+	for x in name:
+		inst = Tweet(x)
+		handle = inst._user_()
+		makestr = str(handle)
+		twitter = get_user_tweets(makestr)
+		#print(twitter)
+		userclass = User(twitter)
+		print(userclass)
+		if len(inst.mentions) != 0:
+			#print(inst._mentions_)
+			handment = inst.mentions()
+			makestr = str(handment)
+			tform = get_user_tweets(makestr)
+			menuc = User(tform)
+			print(menuc)
+datatwituser = gettinguserinfo(dirs_for_twitter)
+
+# avauser = get_user_tweets('randi_pandi')
+# #print(avauser)
+# ava = User(avauser)
+# print(ava)
+
