@@ -70,6 +70,8 @@ def get_user_tweets(twenty_user_timeline_tweets):
 		f.write(json.dumps(CACHE_DICTION))
 		f.close()
 
+	return twitter_results
+
 	# tweet_texts = [] 
 	# tweet_createdat = []
 	# for tweet in twitter_results["statuses"][:6]:
@@ -104,21 +106,34 @@ cur.execute('CREATE TABLE Tweets (tweet_id TEXT, author TEXT, time_posted INTEGE
 
 
 # Invoke the function you defined above to get a list that represents a bunch of tweets from the UMSI timeline. Save those tweets in a variable called umsi_tweets.
+umsi_tweets = get_user_tweets('umsi')
+
 
 
 
 
 # Use a for loop, the cursor you defined above to execute INSERT statements, that insert the data from each of the tweets in umsi_tweets into the correct columns in each row of the Tweets database table.
-
 # (You should do nested data investigation on the umsi_tweets value to figure out how to pull out the data correctly!)
-
-
-
 
 # Use the database connection to commit the changes to the database
 
+tweets = []
+
+for t in umsi_tweets:
+	tweets = []
+	load = 'INSERT OR IGNORE INTO Tweets VALUES (?,?,?,?,?)'
+	tweets.append(t['id'])
+	tweets.append(t['user']['screen_name'])
+	tweets.append(t['created_at'])
+	tweets.append(t['text'])
+	tweets.append(t['retweet_count'])
+	#x = (tweet_id, user_id, time_posted, text, retweets)
+	cur.execute(load, tweets)
 
 
+
+
+conn.commit()
 # You can check out whether it worked in the SQLite browser! (And with the tests.)
 
 
@@ -130,18 +145,23 @@ cur.execute('CREATE TABLE Tweets (tweet_id TEXT, author TEXT, time_posted INTEGE
 
 
 # Select from the database all of the TIMES the tweets you collected were posted and fetch all the tuples that contain them in to the variable tweet_posted_times.
-
+query = 'SELECT time_posted FROM Tweets'
+cur.execute(query)
+tweet_posted_times = cur.fetchall()
 
 # Select all of the tweets (the full rows/tuples of information) that have been retweeted MORE than 2 times, and fetch them into the variable more_than_2_rts.
-
+query = 'SELECT * FROM Tweets WHERE retweets > 2'
+cur.execute(query)
+more_than_2_rts = cur.fetchall()
 
 
 # Select all of the TEXT values of the tweets that are retweets of another account (i.e. have "RT" at the beginning of the tweet text). Save the FIRST ONE from that group of text values in the variable first_rt. Note that first_rt should contain a single string value, not a tuple.
+query = 'SELECT tweet_text FROM Tweets WHERE instr(tweet_text, "RT")'
+cur.execute(query)
+#x = cur.fetchone()
+first_rt = cur.fetchone()[0]
 
-
-
-# Finally, done with database stuff for a bit: write a line of code to close the cursor to the database.
-
+conn.close()
 
 
 ## [PART 3] - Processing data
@@ -159,7 +179,12 @@ cur.execute('CREATE TABLE Tweets (tweet_id TEXT, author TEXT, time_posted INTEGE
 # If you want to challenge yourself here -- this function definition (what goes under the def statement) CAN be written in one line! Definitely, definitely fine to write it with multiple lines, too, which will be much easier and clearer.
 
 
-
+def get_twitter_users(str_twit):
+	res = re.findall('@([A-z0-9_]*', str_twit)
+	res_lst = []
+	for x in res:
+		res_lst.append(res[1:])
+	return set(res_lst)
 
 
 #########
