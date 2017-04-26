@@ -188,7 +188,9 @@ class Tweet():
 # 	b = xx._tweet_text()
 # 	print(b)
 #~~~~~~~~~~~~CLASS FOR TWITTER USER
-	#~~~~~~~~~~~~USER ID, SCREENNAME, NUM OF FAVORITES THE USER HAS MADE, MAYBE NUMBER OF FOLLOWERSclass User():
+	#~~~~~~~~~~~~USER ID, SCREENNAME, NUM OF FAVORITES THE USER HAS MADE, MAYBE NUMBER OF FOLLOWERS
+
+class User():
 	def __init__(self, dict_for_user):
 		self.user_id = dict_for_user['user']['id_str']
 		self.screen_name = dict_for_user['user']['screen_name']
@@ -303,4 +305,160 @@ datatwituser = gettinguserinfo(dirs_for_twitter)
 # #print(avauser)
 # ava = User(avauser)
 # print(ava)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~FOR DATABASES~~~~~~~~~~~~~~~~~~~~~~~~
+
+conn = sqlite3.connect('proj_final.db')
+cur = conn.cursor()
+
+# #~~~~~~~~~~~~MOVIES TABLE
+# #~~~~~~~~~~~~ID (primary key) (NOTE title is dangerous for a primary key, 2 movies could have the same title!)
+# #~~~~~~~~~~~~Title of the movie
+# #~~~~~~~~~~~~Director of the movie 
+# #~~~~~~~~~~~~Number of languages the movie has
+# #~~~~~~~~~~~~IMDB rating of the movie
+# #~~~~~~~~~~~~The top billed (first in the list) actor in the movie
+
+
+
+
+
+
+
+# #movies db
+drop_movies_table = ("DROP TABLE IF EXISTS Movies")
+
+#table_spec = "CREATE TABLE IF NOT EXISTS "
+create_movies_table = 'CREATE TABLE Movies (title TEXT, director TEXT, imdbRating PRIMARY KEY, actor_names TEXT, num_lang TEXT, year_released TEXT)'
+
+cur.execute(drop_movies_table)
+cur.execute(create_movies_table)
+
+# #~~~~~~~~~~~~TWEETS TABLE
+# #~~~~~~~~~~~~Tweet text
+# #~~~~~~~~~~~~Tweet ID (primary key)
+# #~~~~~~~~~~~~The user who posted the tweet (represented by a reference to the users table)
+# #~~~~~~~~~~~~The movie search this tweet came from (represented by a reference to the movies table)
+# #~~~~~~~~~~~~Number favorites
+# #~~~~~~~~~~~~Number retweets
+
+#tweets db
+drop_tweets_table = ("DROP TABLE IF EXISTS Tweets")
+
+#table_spec = "CREATE TABLE IF NOT EXISTS "
+create_tweets_table = 'CREATE TABLE Tweets (text TEXT, tweet_id PRIMARY KEY, user TEXT, favorites INTEGER, retweets INTEGER, director_searched TEXT)'
+
+cur.execute(drop_tweets_table)
+cur.execute(create_tweets_table)
+
+# #~~~~~~~~~~~~USERS TABLE
+# #~~~~~~~~~~~~User ID (primary key)
+# #~~~~~~~~~~~~User screen name
+# #~~~~~~~~~~~~Number of favorites that user has ever made
+
+#users db
+drop_users_table = ("DROP TABLE IF EXISTS Users")
+
+# table_spec = "CREATE TABLE IF NOT EXISTS "
+create_users_table = 'CREATE TABLE Users (user_id PRIMARY KEY, screen_name TEXT, favorites INTEGER, num_followers INTEGER)'
+
+cur.execute(drop_users_table)
+cur.execute(create_users_table)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING INTO DATABASE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+movieslist = []
+tweetslist = []
+userslist = []
+
+# load_tweets = 'INSERT INTO Tweets VALUES (?,?,?,?,?,?)'
+# for userdata in tweets:
+# 	cur.execute(load_tweets, userdata)
+
+# load_users = 'INSERT OR IGNORE INTO Users VALUES(?,?,?,?)'
+# for userdata in umich_tweets:
+# 	user_id = userdata['user']['id_str']
+# 	screen_name = userdata['user']['screen_name']
+# 	num_favs = userdata['user']['favourites_count']
+# 	description = userdata['user']['description']
+
+# 	comp = (user_id, screen_name, num_favs, description)
+# 	cur.execute(load_users, comp)
+
+# user_list = []
+# for userdata in umich_tweets:
+# 	x = userdata['entities']['user_mentions']
+# 	for y in range(len(x)):
+# 		user_list.append(x[y]['screen_name'])
+
+# for userdata in user_list:
+# 	load = 'INSERT OR IGNORE INTO Users VALUES (?,?,?,?)'
+# 	val = get_user_tweets(userdata)
+# 	for y in val:
+# 		user_id = y['user']['id_str']
+# 		screen_name = y['user']['screen_name']
+# 		num_favs = y['user']['favourites_count']
+# 		description = y['user']['description']
+
+# 		comp = (user_id, screen_name, num_favs, description)
+# 		cur.execute(load_users, comp)
+
+#conn.commit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+conn.close()
+
+#~~~~~~~~~~~~~~~~~~~~~~~~UNIT TESTS~~~~~~~~~~~~~~~~~~~~~~~~
+print('~~~~~~~~~~~~UNIT TESTS~~~~~~~~~~~~')
+print('')
+class MyUnitTest(unittest.TestCase):
+	# def test_1_movie_instance(self):
+	# 	self.assertIsInstance(list_of_instcs, Movie) #good
+	# def test_2_movie_return_(self):
+	# 	self.assertTrue(type(list_of_instcs) == type({})) #good
+	# def test_3_twitter_return_(self):
+	# 	self.assertTrue(type(x) == type({Movie(x))) 
+	# def test_4_user_return(self):
+	# 	self.assertTrue(type(trying) == type({})) 
+	def test_5_caching(self):
+		filename = open("SI206_final_project_cache.json", 'r').read()
+		self.assertTrue('Director' in filename)
+
+
+
+
+
+
+
+
+unittest.main(verbosity=2)
+
+
+
+
+
 
